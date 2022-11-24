@@ -12,7 +12,7 @@ export default function Predict(){
         console.log("closed");
     };
 
-    const [selected, setSelected] = useState(new Set(["Diseases"]));
+    const [selected, setSelected] = useState<any>(new Set(["Diseases"]));
     const selectedValue = useMemo(
         () => Array.from(selected).join(", ").replaceAll("_", " "),
         [selected]
@@ -26,7 +26,7 @@ export default function Predict(){
     
       const handleSubmitDetails = () =>{
 
-        
+
         var data = JSON.stringify({
             "amt1": 100,
             "disease": [

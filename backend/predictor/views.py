@@ -1,10 +1,19 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from rest_framework import serializers
+
+from predictor.models import Test
 
 import numpy as np
 import pickle
 
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test
+        fields = ('__all__')
+
 class Predictor(ListAPIView):
+    serializer_class = TestSerializer
     def post(self, request):
         diseases = [
             "Cancer","Heart Failure", "Alzheimer", "Kidney Disease", 
@@ -26,10 +35,6 @@ class Predictor(ListAPIView):
                     else:
                         int_features.append(float(0))
 
-
-
-            
-        
         final_features = [np.array(int_features)]
         final_features=scalar_minmax.transform(final_features)
 

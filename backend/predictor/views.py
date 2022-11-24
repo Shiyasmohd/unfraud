@@ -6,10 +6,30 @@ import pickle
 
 class Predictor(ListAPIView):
     def post(self, request):
+        diseases = [
+            "Cancer","Heart Failure", "Alzheimer", "Kidney Disease", 
+            "Obstructive Pulmonary", "Depression", "Diabetes", "Stroke", 
+            "Ischemic Heart Disease", "Osteoporosis", "Rheumatoid Arthritis",
+        ]
+
         model_knn = pickle.load(open('model_knn.pkl', 'rb'))
         scalar_minmax=pickle.load(open('scalar_minmax.pkl', 'rb'))
         dic = request.data
-        int_features = [float(x) for x in dic.values()]
+        int_features = []
+        for key in dic.keys():
+            if key != 'disease':
+                int_features.append(float(dic[key]))
+            else:
+                for dis in diseases:
+                    if dis in dic[key]:
+                        int_features.append(float(1))
+                    else:
+                        int_features.append(float(0))
+
+
+
+            
+        
         final_features = [np.array(int_features)]
         final_features=scalar_minmax.transform(final_features)
 

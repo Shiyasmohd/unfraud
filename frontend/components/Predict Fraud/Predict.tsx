@@ -1,16 +1,23 @@
-import { Button, Checkbox, Dropdown, FormElement, Input, Modal, Radio, Row, Text } from "@nextui-org/react";
+import { Button, Checkbox, Dropdown, FormElement, Input, Loading, Modal, Radio, Row, Text } from "@nextui-org/react";
 import axios from "axios";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useMemo, useRef, useState } from "react";
+import Tick from '../../public/completed.gif'
 
 export default function Predict(){
 
+    const router = useRouter()
     const [outPatient,setOutPatient] = useState<string>('true')
+    const [checkCompleted,setCheckCompleted] = useState<boolean>(false)
 
     const [visible, setVisible] = useState(false);
     const closeHandler = () => {
         setVisible(false);
         console.log("closed");
     };
+
+    const [processingBox, setProcessingBox] = useState(false);
 
     const [selected, setSelected] = useState<any>(new Set(["Diseases"]));
     const selectedValue = useMemo(
@@ -19,30 +26,43 @@ export default function Predict(){
     );
 
     const policyNo = useRef<any>()
-    const dob = useRef<any>()
+    const age = useRef<any>()
     const claimAmount = useRef<any>()
     const annualAmount = useRef<any>()
 
     
       const handleSubmitDetails = () =>{
 
+        setProcessingBox(true)
+        const diseases = [...Array.from(selected)]
+        diseases.shift()
 
-        var data = JSON.stringify({
-            "amt1": 100,
-            "disease": [
-                "Cancer",
-                "Stroke"
-            ],
-            "amt2": 100,
-            "amt3": 0,
-            "age": 30,
-            "patin": 1,
-            "nod": 2
-        });
+        if(outPatient=='true'){
+            var data = JSON.stringify({
+                "amt1": claimAmount.current.value,
+                "disease": diseases,
+                "amt2": 0,
+                "amt3": annualAmount.current.value,
+                "age": age.current.value,
+                "patin": 0,
+                "nod": diseases.length
+            });
+        }else{
+            var data = JSON.stringify({
+                "amt1": claimAmount.current.value,
+                "disease": diseases,
+                "amt2": annualAmount.current.value,
+                "amt3": 0,
+                "age": age.current.value,
+                "patin": 1,
+                "nod": diseases.length
+            });
+        }
 
+        console.log(data)
         var config = {
             method: 'post',
-            url: 'https://f32d-117-230-83-134.in.ngrok.io/api/predict/',
+            url: 'https://hchain.herokuapp.com/api/predict/',
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -51,7 +71,10 @@ export default function Predict(){
         
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            console.log(response.data.isFraud);
+            if(response.data.isFraud){
+                router.push("/upload_data")
+            }
         })
         .catch(function (error) {
             console.log(error);
@@ -89,7 +112,7 @@ export default function Predict(){
                 <Modal.Body>
 
                     <Input clearable bordered fullWidth color="primary" size="lg" label="Policy Number" ref={policyNo} />
-                    <Input clearable bordered fullWidth color="primary" size="lg" type="date" placeholder="Date" label="DOB" ref={dob}  />
+                    <Input clearable bordered fullWidth color="primary" size="lg" type="number" label="Age" ref={age}  />
                     <Input clearable bordered fullWidth color="primary" size="lg" label="Insurance Claim Reimburse Amount" ref={claimAmount} />
 
                     <Radio.Group label="Out Patient" className="flex" value={outPatient} onChange={setOutPatient}  >
@@ -148,6 +171,35 @@ export default function Predict(){
                     </button>
                 </Modal.Footer>
             </Modal>
+
+            <Modal
+                closeButton
+                aria-labelledby="modal-title"
+                open={processingBox}
+                className="checking-modal"
+            >
+                {
+                    checkCompleted ?
+                        <Modal.Body
+                            className="w-full flex justify-center flex-row gap-6"
+                        >
+                            <Loading className="w-fit"/>
+                            <p className="w-fit">
+                                Processing Data...
+                            </p>
+                        </Modal.Body>
+                        : 
+                        <Modal.Body
+                            className="w-full flex justify-center items-center flex-row gap-6 mb-4"
+                        >
+                            <div className="w-[35px] h-[35px] m-0"> <Image src={Tick} alt="" width={35} height={35}/></div>
+                            <p className="w-fit">
+                                Verified
+                            </p>
+                        </Modal.Body>
+                    }
+            </Modal>
+
         </div>
     )
 }

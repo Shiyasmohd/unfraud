@@ -1,5 +1,7 @@
 dev/
 
+__pycache__/
+
 backend/dev_settings.py
 
 db.sqlite3

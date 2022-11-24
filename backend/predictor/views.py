@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from rest_framework.generics import ListAPIView
 
-# Create your views here.
+class Predictor(ListAPIView):
+    def post(self, request):
+        pass

@@ -4,16 +4,21 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useMemo, useRef, useState } from "react";
 import Tick from '../../public/completed.gif'
+import Cancel from '../../public/close.gif'
 
 export default function Predict(){
 
     const router = useRouter()
     const [outPatient,setOutPatient] = useState<string>('true')
     const [checkCompleted,setCheckCompleted] = useState<boolean>(false)
+    const [rejected,setRejected] = useState<boolean>(false)
 
     const [visible, setVisible] = useState(false);
     const closeHandler = () => {
         setVisible(false);
+        setProcessingBox(false)
+        setCheckCompleted(false)
+        setRejected(false)
         console.log("closed");
     };
 
@@ -72,9 +77,19 @@ export default function Predict(){
         axios(config)
         .then(function (response) {
             console.log(response.data.isFraud);
-            if(response.data.isFraud){
-                router.push("/upload_data")
+            
+            if(!response.data.isFraud){
+                setCheckCompleted(true)
+                setTimeout(()=>{
+                    router.push("/upload-data")
+                },3000)
+            }else{
+                setRejected(true)
+                setTimeout(()=>{
+                    router.push("/")
+                },3000)
             }
+            
         })
         .catch(function (error) {
             console.log(error);
@@ -172,6 +187,8 @@ export default function Predict(){
                 </Modal.Footer>
             </Modal>
 
+            {/* -----------------------Modal 2-------------------------- */}
+
             <Modal
                 closeButton
                 aria-labelledby="modal-title"
@@ -181,15 +198,6 @@ export default function Predict(){
                 {
                     checkCompleted ?
                         <Modal.Body
-                            className="w-full flex justify-center flex-row gap-6"
-                        >
-                            <Loading className="w-fit"/>
-                            <p className="w-fit">
-                                Processing Data...
-                            </p>
-                        </Modal.Body>
-                        : 
-                        <Modal.Body
                             className="w-full flex justify-center items-center flex-row gap-6 mb-4"
                         >
                             <div className="w-[35px] h-[35px] m-0"> <Image src={Tick} alt="" width={35} height={35}/></div>
@@ -197,8 +205,30 @@ export default function Predict(){
                                 Verified
                             </p>
                         </Modal.Body>
+
+                        : rejected ?
+                        <Modal.Body
+                            className="w-full flex justify-center items-center flex-row gap-6 mb-4"
+                        >
+                            <div className="w-[35px] h-[35px] m-0"> <Image src={Cancel} alt="" width={35} height={35}/></div>
+                            <p className="w-fit">
+                                Rejected
+                            </p>
+                        </Modal.Body>
+                        :
+                        <Modal.Body
+                            className="w-full flex justify-center flex-row gap-6"
+                        >
+                            <Loading className="w-fit"/>
+                            <p className="w-fit">
+                                Processing Data...
+                            </p>
+                        </Modal.Body>
+                        
                     }
             </Modal>
+            {/* -----------------------Modal 2 End------------------------- */}
+
 
         </div>
     )

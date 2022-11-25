@@ -13,8 +13,13 @@ Rigorous analysis of Medicare data has yielded many physicians who indulge in fr
 
 ## Solution proposed  
 
-We propose a decentralized AI-based platform that detects fraud in real-time. To receive a claim, a user must submit the appropriate information to our forum. Our advanced AI which contains NLP models and simple ML models reviews the given information and if it finds fraud rejects the data transaction; however if it’s a genuine claim, the data is saved into a blockchain. Additionally, we offer an AI-based emergency summary sheet compressing health conditions and their risk from the information on their previous medical claims. Finally, we have a QR code that displays the emergency information tab when scanned with an authorized hospital IP address to access this data and we also provide a consent OTP system to authorized relatives permission to access this data. 
+We propose a AI-based API Provider that detects fraud in real-time. To receive a claim, a user must submit the appropriate information to our forum. Our advanced AI which contains NLP models and simple ML models reviews the given information and if it finds fraud rejects the data transaction
    
+## Steps Involved
+
+- Data Scrapping and Data analysis for finding the dataset and features that are important for prediction.
+- Machine learning is used for flagging the claims according to the dataset and the features.
+
 ## How to run
 
 ## Tech Stacks used

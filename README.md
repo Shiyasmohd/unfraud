@@ -1,4 +1,4 @@
-# Health-Chain
+# Unfraud 📈
 ## A Decentralized AI-based application in detecting healthcare fraud claims 
 
 ## What are healthcare frauds?

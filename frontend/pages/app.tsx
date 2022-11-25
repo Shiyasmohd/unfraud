@@ -1,4 +1,3 @@
-import Generate from "../components/Generate Summary/Generate";
 import Predict from "../components/Predict Fraud/Predict";
 
 export default function App(){

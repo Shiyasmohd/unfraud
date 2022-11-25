@@ -22,4 +22,10 @@ We propose a AI-based API Provider that detects fraud in real-time. To receive a
 
 ## How to run
 
-## Tech Stacks used
+## Tech Stacks used 💻
+
+  • NextJS<br/>
+  • Typescript<br/>
+  • Tailwind<br/>
+  • Django<br/>
+  • Scikit Learn

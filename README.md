@@ -1,5 +1,13 @@
-# Unfraud 📈
-## An AI-based application in detecting healthcare fraud claims 
+
+
+<div align="center" style="font-family:'Montserrat', sans-serif;">
+  
+## Unfraud 📈
+### An AI-based application in detecting healthcare fraud claims
+
+  [![Link](https://img.shields.io/badge/Website-Link-yellow)](https://unfraud.vercel.app/) <br/>
+  An Anime GIF Gallery on Solana using Anchor Framework
+</div>
 
 ## What are healthcare frauds?
 

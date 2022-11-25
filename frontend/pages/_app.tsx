@@ -5,6 +5,7 @@ import { createTheme, NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import NextNProgress from 'nextjs-progressbar'
 
+
 export default function App({ Component, pageProps }: AppProps) {
 
   const lightTheme = createTheme({

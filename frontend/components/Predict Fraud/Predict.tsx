@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useMemo, useRef, useState } from "react";
 import Tick from '../../public/completed.gif'
 import Cancel from '../../public/close.gif'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Predict(){
 
@@ -81,17 +82,19 @@ export default function Predict(){
             if(!response.data.isFraud){
                 setCheckCompleted(true)
                 setTimeout(()=>{
-                    router.push("/upload-data")
+                    router.push("/app")
                 },3000)
             }else{
                 setRejected(true)
                 setTimeout(()=>{
-                    router.push("/")
+                    router.push("/app")
                 },3000)
             }
             
         })
         .catch(function (error) {
+            setProcessingBox(false)
+            alert(error)
             console.log(error);
         });
     }

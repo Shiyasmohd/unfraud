@@ -3,7 +3,7 @@
 <div align="center" style="font-family:'Montserrat', sans-serif;">
   
 ## Unfraud 📈
-### An AI-based application in detecting healthcare fraud claims
+### An AI-based API provider in detecting healthcare fraud claims
 
   [![Link](https://img.shields.io/badge/Website-Link-yellow)](https://unfraud.vercel.app/) <br/>
 </div>

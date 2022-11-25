@@ -27,7 +27,7 @@ We propose a AI-based API Provider that detects fraud in real-time. To receive a
 - Data Scrapping and Data analysis for finding the dataset and features that are important for prediction.
 - Machine learning is used for flagging the claims according to the dataset and the features.
 
-## How to interact with our API
+## How to interact with our API ❓
 
 * Send POST request to URL with following field
 ```
